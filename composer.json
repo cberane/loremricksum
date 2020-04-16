@@ -1,0 +1,29 @@
+{
+    "name": "criber87/loremricksum",
+    "description": "simple package for using the loremricksum.com API in laravel",
+    "authors": [
+        {
+            "name": "Cristoph Berane",
+            "email": "cristoph@berane.eu"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LoremRicksum\\": "src/LoremRicksum"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "6.5.2"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LoremRicksum\\LoremRicksumServiceProvider"
+            ],
+            "aliases": {
+                "LoremRicksum": "LoremRicksum\\Facade"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}
