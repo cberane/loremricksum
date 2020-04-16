@@ -1,6 +1,7 @@
 {
     "name": "criber87/loremricksum",
     "description": "simple package for using the loremricksum.com API in laravel",
+    "license": "MIT",
     "authors": [
         {
             "name": "Cristoph Berane",
