@@ -10,7 +10,7 @@ class LoremRicksumServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        # code...
+        // code...
     }
 
     public function register()

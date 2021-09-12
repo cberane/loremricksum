@@ -1,6 +1,5 @@
 <?php
 
-
 namespace LoremRicksum\Faker;
 
 use GuzzleHttp\Client;
@@ -9,12 +8,13 @@ use InvalidArgumentException;
 class LoremRicksumFaker
 {
     /**
-     * the api url to use to fetch lorem ricksum quotes
+     * the api url to use to fetch lorem ricksum quotes.
      */
-    const API_URL = "http://loremricksum.com/api/";
+    const API_URL = 'http://loremricksum.com/api/';
 
     /**
-     * save singleton instance of LoremRicksumFaker
+     * save singleton instance of LoremRicksumFaker.
+     *
      * @var
      */
     private static $instance = null;
@@ -32,11 +32,12 @@ class LoremRicksumFaker
         if (self::$instance == null) {
             self::$instance = new LoremRicksumFaker();
         }
+
         return self::$instance;
     }
 
     /**
-     * LoremRicksumFaker constructor
+     * LoremRicksumFaker constructor.
      */
     private function __construct()
     {
@@ -44,22 +45,27 @@ class LoremRicksumFaker
     }
 
     /**
-     * method to fetch the quotes from the api
+     * method to fetch the quotes from the api.
+     *
      * @param int $paragraphs
      * @param int $quotes
-     * @return mixed Object with attribute 'data'
+     *
      * @throws InvalidArgumentException
+     *
+     * @return mixed Object with attribute 'data'
      */
     private function fetch($paragraphs = 1, $quotes = 3)
     {
         // simple check of the parameters
-        if ($paragraphs == null || !is_numeric($paragraphs) || $paragraphs < 1)
+        if ($paragraphs == null || !is_numeric($paragraphs) || $paragraphs < 1) {
             throw new InvalidArgumentException('invalid number of paragraphs');
-        if ($quotes == null || !is_numeric($quotes) || $quotes < 1)
+        }
+        if ($quotes == null || !is_numeric($quotes) || $quotes < 1) {
             throw new InvalidArgumentException('invalid number of quotes');
+        }
 
         // create request url
-        $url = self::API_URL . "?paragraphs=" . $paragraphs . "&quotes=" . $quotes;
+        $url = self::API_URL.'?paragraphs='.$paragraphs.'&quotes='.$quotes;
 
         // fetch quotes from server
         $response = $this->apiClient->get($url);
@@ -80,11 +86,14 @@ class LoremRicksumFaker
     }
 
     /**
-     * returns the quotes as a simple combined text. uses double linebreak between each paragraph
+     * returns the quotes as a simple combined text. uses double linebreak between each paragraph.
+     *
      * @param int $paragraphs number of paragraphs to load from api
-     * @param int $quotes number of quotes to load from api
-     * @return string plain text of quotes
+     * @param int $quotes     number of quotes to load from api
+     *
      * @throws InvalidArgumentException
+     *
+     * @return string plain text of quotes
      */
     public function getPlaintext($paragraphs = 1, $quotes = 3)
     {
@@ -95,18 +104,21 @@ class LoremRicksumFaker
     }
 
     /**
-     * returns the quotes as html paragraphs (<p>). each paragraph is inserted in a p-tag
+     * returns the quotes as html paragraphs (<p>). each paragraph is inserted in a p-tag.
+     *
      * @param int $paragraphs number of paragraphs to load from api
-     * @param int $quotes number of quotes to load from api
-     * @return string HTML text of quotes
+     * @param int $quotes     number of quotes to load from api
+     *
      * @throws InvalidArgumentException
+     *
+     * @return string HTML text of quotes
      */
     public function getHtml($paragraphs = 1, $quotes = 3)
     {
         $temp = $this->fetch($paragraphs, $quotes);
-        $result = "<p>";
+        $result = '<p>';
         $result .= implode('</p><p>', $temp->data);
-        $result .= "</p>";
+        $result .= '</p>';
         // return combined string as paragraphs
         return $result;
     }
