@@ -1,6 +1,6 @@
 <?php
 
-namespace LoremRicksum;
+namespace Cberane\LoremRicksum;
 
 use Illuminate\Support\Facades\Facade as LaravelFacade;
 

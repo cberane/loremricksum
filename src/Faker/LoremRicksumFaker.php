@@ -1,47 +1,30 @@
 <?php
 
-namespace LoremRicksum\Faker;
+namespace Cberane\LoremRicksum\Faker;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 
 class LoremRicksumFaker
 {
     /**
      * the api url to use to fetch lorem ricksum quotes.
+     * @var string
      */
     const API_URL = 'http://loremricksum.com/api/';
 
     /**
-     * save singleton instance of LoremRicksumFaker.
-     *
-     * @var
+     * @var Client|null the client to use for the requests
      */
-    private static $instance = null;
+    private ?Client $apiClient;
 
     /**
-     * @var Client http client of the instance
+     * @param Client|null $client
      */
-    private $apiClient;
-
-    /**
-     * @return LoremRicksumFaker singleton instance
-     */
-    public static function getInstance()
+    public function __construct(?Client $client = null)
     {
-        if (self::$instance == null) {
-            self::$instance = new LoremRicksumFaker();
-        }
-
-        return self::$instance;
-    }
-
-    /**
-     * LoremRicksumFaker constructor.
-     */
-    private function __construct()
-    {
-        $this->apiClient = new Client();
+        $this->apiClient = $client ?? new Client();
     }
 
     /**
@@ -50,27 +33,25 @@ class LoremRicksumFaker
      * @param int $paragraphs
      * @param int $quotes
      *
-     * @throws InvalidArgumentException
-     *
      * @return mixed Object with attribute 'data'
+     * @throws GuzzleException
      */
-    private function fetch($paragraphs = 1, $quotes = 3)
+    public function fetch(int $paragraphs = 1, int $quotes = 3)
     {
         // simple check of the parameters
-        if ($paragraphs == null || !is_numeric($paragraphs) || $paragraphs < 1) {
+        if ($paragraphs < 1) {
             throw new InvalidArgumentException('invalid number of paragraphs');
         }
-        if ($quotes == null || !is_numeric($quotes) || $quotes < 1) {
+        if ($quotes < 1) {
             throw new InvalidArgumentException('invalid number of quotes');
         }
 
         // create request url
-        $url = self::API_URL.'?paragraphs='.$paragraphs.'&quotes='.$quotes;
+        $url = self::API_URL . "?paragraphs=$paragraphs&quotes=$quotes";
 
         // fetch quotes from server
         $response = $this->apiClient->get($url);
-        assert($response != null);
-        assert($response->getStatusCode() == 200);
+        assert($response->getStatusCode() === 200);
 
         // get content
         $body = $response->getBody()->getContents();
@@ -89,13 +70,12 @@ class LoremRicksumFaker
      * returns the quotes as a simple combined text. uses double linebreak between each paragraph.
      *
      * @param int $paragraphs number of paragraphs to load from api
-     * @param int $quotes     number of quotes to load from api
-     *
-     * @throws InvalidArgumentException
+     * @param int $quotes number of quotes to load from api
      *
      * @return string plain text of quotes
+     * @throws GuzzleException
      */
-    public function getPlaintext($paragraphs = 1, $quotes = 3)
+    public function getPlaintext(int $paragraphs = 1, int $quotes = 3): string
     {
         $result = $this->fetch($paragraphs, $quotes);
 
@@ -107,13 +87,14 @@ class LoremRicksumFaker
      * returns the quotes as html paragraphs (<p>). each paragraph is inserted in a p-tag.
      *
      * @param int $paragraphs number of paragraphs to load from api
-     * @param int $quotes     number of quotes to load from api
-     *
-     * @throws InvalidArgumentException
+     * @param int $quotes number of quotes to load from api
      *
      * @return string HTML text of quotes
+     * @throws GuzzleException
+     *
+     * @throws InvalidArgumentException
      */
-    public function getHtml($paragraphs = 1, $quotes = 3)
+    public function getHtml(int $paragraphs = 1, int $quotes = 3): string
     {
         $temp = $this->fetch($paragraphs, $quotes);
         $result = '<p>';
