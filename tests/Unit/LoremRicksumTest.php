@@ -21,6 +21,7 @@ class LoremRicksumTest extends TestCase
 
     /**
      * @test
+     *
      * @throws GuzzleException
      */
     public function fetch()
@@ -38,6 +39,7 @@ class LoremRicksumTest extends TestCase
 
     /**
      * @test
+     *
      * @throws GuzzleException
      */
     public function invalid_paragraph_count()
@@ -48,17 +50,18 @@ class LoremRicksumTest extends TestCase
 
     /**
      * @test
+     *
      * @throws GuzzleException
      */
     public function invalid_quote_count()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->faker->fetch(1,-1);
+        $this->faker->fetch(1, -1);
     }
-
 
     /**
      * @test
+     *
      * @throws GuzzleException
      */
     public function getPlaintext()
@@ -73,6 +76,7 @@ class LoremRicksumTest extends TestCase
 
     /**
      * @test
+     *
      * @throws GuzzleException
      */
     public function getHtml()
@@ -87,6 +91,4 @@ class LoremRicksumTest extends TestCase
         $result = $this->faker->getHtml(4, 1);
         self::assertMatchesRegularExpression('/^(<p>.*<\/p>){4}$/', $result);
     }
-
-
 }

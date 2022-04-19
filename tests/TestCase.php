@@ -16,7 +16,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageAliases($app)
     {
         return [
-            'LoremRicksum' => 'Cberane\LoremRicksum\Facade'
+            'LoremRicksum' => 'Cberane\LoremRicksum\Facade',
         ];
     }
 }

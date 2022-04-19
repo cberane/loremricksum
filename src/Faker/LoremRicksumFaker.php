@@ -10,6 +10,7 @@ class LoremRicksumFaker
 {
     /**
      * the api url to use to fetch lorem ricksum quotes.
+     *
      * @var string
      */
     const API_URL = 'http://loremricksum.com/api/';
@@ -33,8 +34,9 @@ class LoremRicksumFaker
      * @param int $paragraphs
      * @param int $quotes
      *
-     * @return mixed Object with attribute 'data'
      * @throws GuzzleException
+     *
+     * @return mixed Object with attribute 'data'
      */
     public function fetch(int $paragraphs = 1, int $quotes = 3)
     {
@@ -47,7 +49,7 @@ class LoremRicksumFaker
         }
 
         // create request url
-        $url = self::API_URL . "?paragraphs=$paragraphs&quotes=$quotes";
+        $url = self::API_URL."?paragraphs=$paragraphs&quotes=$quotes";
 
         // fetch quotes from server
         $response = $this->apiClient->get($url);
@@ -70,10 +72,11 @@ class LoremRicksumFaker
      * returns the quotes as a simple combined text. uses double linebreak between each paragraph.
      *
      * @param int $paragraphs number of paragraphs to load from api
-     * @param int $quotes number of quotes to load from api
+     * @param int $quotes     number of quotes to load from api
+     *
+     * @throws GuzzleException
      *
      * @return string plain text of quotes
-     * @throws GuzzleException
      */
     public function getPlaintext(int $paragraphs = 1, int $quotes = 3): string
     {
@@ -87,12 +90,12 @@ class LoremRicksumFaker
      * returns the quotes as html paragraphs (<p>). each paragraph is inserted in a p-tag.
      *
      * @param int $paragraphs number of paragraphs to load from api
-     * @param int $quotes number of quotes to load from api
+     * @param int $quotes     number of quotes to load from api
+     *
+     * @throws GuzzleException
+     * @throws InvalidArgumentException
      *
      * @return string HTML text of quotes
-     * @throws GuzzleException
-     *
-     * @throws InvalidArgumentException
      */
     public function getHtml(int $paragraphs = 1, int $quotes = 3): string
     {
